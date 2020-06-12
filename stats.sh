@@ -101,14 +101,7 @@ echo $cmd $cmd2 >>metrics2.txt
 
 Operaciones;;
 
-#Sumatotal=$(cat suma.txt | awk 'BEGIN{total=0} {total+=$1} END{print total}')     #(suma total suma.txt)
 
-#prom=$(cat suma.txt  | awk 'BEGIN{total=0; count=0} { total+=$1; count+=1;} END {print total/count}') #(promedio suma.txt)
-
-
-#Sumatota12=$(cat memoria.txt | awk 'BEGIN{total=0} {total+=$1} END{print total}')       # (suma total memoria.txt)
-
-#Prom2=$(cat memoria.txt  | awk 'BEGIN{total=0; count=0} { total+=$1; count+=1;} END {print total/count}')    # (proemdio memoria.txt)
 
 Operaciones;;
 
@@ -120,9 +113,7 @@ Arreglo2=(`find . -name 'Summary*.txt' -print |sort |grep -v '._'`)
 
 for i in ${Arreglo2[*]}; do cat $i | tail -n+2 | awk -F ':' 'BEGIN{sum=0}{sum+=$7;}END{print sum}'>>suma2.txt; done
 
-#Sumatotal2=$(cat suma2.txt | awk 'BEGIN{total=0} {total+=$1} END{print total}')
 
-#Prom2=$(cat suma2.txt  | awk 'BEGIN{total=0; count=0} { total+=$1; count+=1;} END {print total/count}')
 
 
 cmd3=$(cat suma2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
@@ -139,9 +130,7 @@ echo $cmd3 >>evacuation.txt
 
 for i in ${Arreglo2[*]}; do cat $i | tail -n+2 | awk -F ':' '$3 == 0 {sum=0;sum+=$7;print sum};' >> suma2.1.txt; done
 
-#Sumatotal3=$(cat suma2.1.txt | awk 'BEGIN{total=0} {total+=$1} END{print total}')
 
-#Prom3=$(cat suma2.1.txt  | awk 'BEGIN{total=0; count=0} { total+=$1; count+=1;} END {print total/count}')
 
 cmd4=$(cat suma2.1.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
 
@@ -158,9 +147,7 @@ echo $cmd4 >>evacuation.txt
 for i in ${Arreglo2[*]}; do cat $i | tail -n+2 | awk -F ':' '$3 == 1 {sum=0;sum+=$7;print sum};' >> suma2.2.txt; done
 
 
-#Sumatotal4=$(cat suma2.2.txt | awk 'BEGIN{total=0} {total+=$1} END{print total}')
 
-#Prom4=$(cat suma2.2.txt  | awk 'BEGIN{total=0; count=0} { total+=$1; count+=1;} END {print total/count}')
 
 cmd5=$(cat suma2.2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
 
