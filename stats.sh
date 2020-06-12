@@ -27,8 +27,6 @@ while getopts "d:h" opcion; do
 done
 
 
-
-
 BASEDIR=$(readlink -f $0)
 BASEDIR=$(dirname $BASEDIR)
 
@@ -45,10 +43,7 @@ if [ ! "$(ls $directorio)" ]; then
 fi
 
 
-
 Operaciones(){
-
-
 
 repositorio=$(cat suma2.txt | awk 'BEGIN { min=2**63-1; max=0}{ if($1<min){min=$1};\
 
@@ -140,7 +135,6 @@ echo $repositorio >>evacuation.txt
 for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '$3 == 1 {sum=0;sum+=$7;print sum};' >> suma2.txt; done
 
 
-
 respositorio=$(cat suma2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
 
         if($1>max){max=$1};\
@@ -152,11 +146,9 @@ rm -f suma2.txt
 echo $repositorio >>evacuation.txt
 
 
-
 for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==0) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
 
 Operaciones;
-
 
 for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==1) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
 
