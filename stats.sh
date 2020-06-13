@@ -197,8 +197,8 @@ for i in ${ArraysusePhone[*]}; do
 
 done
 
-
 Operaciones;
+
 
 
 
