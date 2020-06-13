@@ -191,9 +191,9 @@ for i in ${ArraysusePhone[*]}; do
 
         for i in ${MedicionTiempo[*]}; do
 
-                echo -n ":"$i >> test.txt;
+                echo -n ":"$i >> movil.txt;
 
-        done; echo "" >> test.txt;
+        done; echo "" >> movil.txt;
 
 done
 
