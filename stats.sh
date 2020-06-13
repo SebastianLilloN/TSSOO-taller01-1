@@ -183,7 +183,7 @@ Operaciones;
 
 ArraysusePhone=(`find . -name 'usePhone*.txt' -print |sort |grep -v '._'`)
 
-rm -f test.txt;
+rm -f movil.txt;
 
 for i in ${ArraysusePhone[*]}; do
 
@@ -197,6 +197,8 @@ for i in ${ArraysusePhone[*]}; do
 
 done
 
+
+Operaciones;
 
 
 
