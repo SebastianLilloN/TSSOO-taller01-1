@@ -43,26 +43,29 @@ if [ ! "$(ls $directorio)" ]; then
 fi
 
 
+
+
 Operaciones(){
+
+
 
 repositorio=$(cat suma2.txt | awk 'BEGIN { min=2**63-1; max=0}{ if($1<min){min=$1};\
 
         if($1>max){max=$1};\
                 total+=$1; count+=1;\
         } \
-        END { print":" total":", total/count":", min":", max}')
+        END { print total":", total/count":", min":", max}')
 
 rm -f suma2.txt
 echo $repositorio >>evacuation.txt
 
 }
 
+
+
 #problema 1
 
 Arrays=(`find . -name '*.txt' -print |sort |grep -v '._'`)
-
-#cat ${Arreglo[*]}
-
 
 ArraysexecutionSummary=(`find . -name 'executionSummary*.txt' -print |sort |grep -v '._'`)
 
@@ -77,7 +80,7 @@ for i in ${ArraysexecutionSummary[*]};
              if($1>max){max=$1};\
                 total+=$1; count+=1;\
              } \
-             END { print"TsimTotal\n"":" total":","Promedio\n" total/count":","min\n" min":","max\n" max}')
+             END { print total":", total/count":", min":", max}')
 
 
          cat $i | tail -n+2 | awk -F ':' 'BEGIN{sum=0}{sum=$9;}END{print sum}'>>memoria.txt;          #sumas parciales memoria
@@ -87,13 +90,16 @@ for i in ${ArraysexecutionSummary[*]};
             if($1>max){max=$1};\
                  total+=$1; count+=1;\
             } \
-            END { print"Memoria\n" total":","Promedio\n" total/count":","min\n" min":","max\n" max}')
+            END { print total":", total/count":", min":", max}')
 
  done
-
 rm -f suma.txt memoria.txt
-echo $repositorio  >>metrics.txt
+
+printf "tsimTotal:promedio:min:max\n" >> metrics.txt
+echo $repositorio >>metrics.txt
+printf "memUsed:promedio:min:max\n" >> metrics.txt
 echo $repositorio2 >>metrics.txt
+
 
 
 #problema 2
@@ -104,100 +110,87 @@ ArraysSummary=(`find . -name 'summary*.txt' -print |sort |grep -v '._'`)
 for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' 'BEGIN{sum=0}{sum+=$7;}END{print sum}'>>suma2.txt; done
 
 
-
-repositorio=$(cat suma2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
-
-        if($1>max){max=$1};\
-                 total+=$1; count+=1;\
-        } \
-                END { print"alls\n" total":","Promedio\n" total/count":","min\n" min":","max\n" max}')
-
-rm -f suma2.txt
-echo $repositorio >>evacuation.txt
-
-
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '$3 == 0 {sum=0;sum+=$7;print sum};' >> suma2.txt; done
-
-
-
-repositorio=$(cat suma2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
-
-        if($1>max){max=$1};\
-                 total+=$1; count+=1;\
-        } \
-                END { print"residents\n" total":","Promedio\n" total/count":","min\n" min":","max\n" max}')
-
-rm -f  suma2.txt
-echo $repositorio >>evacuation.txt
-
-
-
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '$3 == 1 {sum=0;sum+=$7;print sum};' >> suma2.txt; done
-
-
-respositorio=$(cat suma2.txt | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
-
-        if($1>max){max=$1};\
-                 total+=$1; count+=1;\
-        } \
-                END { print"visitorsI\n" total":","Promedio\n" total/count":","min\n" min":","max\n" max}')
-
-rm -f suma2.txt
-echo $repositorio >>evacuation.txt
-
-
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==0) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
+printf "alls:promedio:min:max\n" >> evacuation.txt
 
 Operaciones;
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==1) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
 
-Operaciones;
+printf "residents:promedio:min:max\n" >> evacuation.txt
+printf "visitorsI:promedio:min:max\n" >> evacuation.txt
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==2) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
+for j in $(seq 0 1);
+    do
+        for i in ${ArraysSummary[*]};
+        do
+            cat $i | tail -n+2 | awk -F ':' '$3 == '$j' {sum=0;sum+=$7;print sum};'>>suma2.txt;
 
-Operaciones;
+        done
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==0 && $4==3) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
+        Operaciones;
 
-Operaciones;
+    done
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==1 && $4==0) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
 
-Operaciones;
+printf "residents-G0:promedio:min:max\n" >> evacuation.txt
+printf "residents-G1:promedio:min:max\n" >> evacuation.txt
+printf "residents-G2:promedio:min:max\n" >> evacuation.txt
+printf "residents-G3:promedio:min:max\n" >> evacuation.txt
+printf "visitorsI-G0:promedio:min:max\n" >> evacuation.txt
+printf "visitorsI-G1:promedio:min:max\n" >> evacuation.txt
+printf "visitorsI-G2:promedio:min:max\n" >> evacuation.txt
+printf "visitorsI-G3:promedio:min:max\n" >> evacuation.txt
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==1 && $4==1) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
+for k in $(seq 0 3);
+    do
+        for j in $(seq 0 1);
+        do
+            for i in ${ArraysSummary[*]};
+            do
+                cat $i | tail -n+2 | awk -F ':' '{if ($3=='$j' && $4=='$k') {sum=0;sum+=$7;print sum}};'>>suma2.txt;
+            done
 
-Operaciones;
+            Operaciones;
 
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==1 && $4==2) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
+        done
+    done
 
-Operaciones;
-
-for i in ${ArraysSummary[*]}; do cat $i | tail -n+2 | awk -F ':' '{if ($3==1 && $4==3) {sum=0;sum+=$7;print sum}};'>>suma2.txt; done
-
-Operaciones;
 
 
 #problema 3
 
 ArraysusePhone=(`find . -name 'usePhone*.txt' -print |sort |grep -v '._'`)
 
-rm -f movil.txt;
+printf "timestamp:promedio:min:max\n" >> usePhone-stats.txt
+
 
 for i in ${ArraysusePhone[*]}; do
 
-        MedicionTiempo=(`cat $i |tail -n+2 |cut -d ":" -f 2,3`);
+        echo  $i; MedicionTiempo=(`cat $i |tail -n+3 |cut -d ":" -f 3`);
 
         for i in ${MedicionTiempo[*]}; do
 
-                echo -n ":"$i >> movil.txt;
+                echo -n $i":" >> movil.txt;
 
         done; echo "" >> movil.txt;
 
 done
 
-Operaciones;
+
+for i in $(seq 1 360); do
+
+                repositorio=$(cat movil.txt | cut -d ':' -f $i | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
+             if($1>max){max=$1};\
+                total+=$1; count+=1;\
+             } \
+             END { print  total/count":",  min":", max}')
+
+
+
+        echo $i"0:"$repositorio  >> usePhone-stats.txt
+
+done
+
+rm -f movil.txt
 
 
 
