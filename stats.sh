@@ -42,7 +42,7 @@ if [ ! "$(ls $directorio)" ]; then
   exit 1
 fi
 
-
+printf "Directorio busqueda: %s\n" $directorio
 
 
 Operaciones(){
